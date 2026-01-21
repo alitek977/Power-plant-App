@@ -16,8 +16,20 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+function applyRTLSettings(shouldBeRTL: boolean): boolean {
+  const currentIsRTL = I18nManager.isRTL;
+  const needsChange = currentIsRTL !== shouldBeRTL;
+  
+  I18nManager.allowRTL(true);
+  I18nManager.forceRTL(shouldBeRTL);
+  I18nManager.swapLeftAndRightInRTL(true);
+  
+  return needsChange;
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>("en");
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     loadLanguage();
@@ -28,15 +40,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const saved = await AsyncStorage.getItem(LANGUAGE_KEY);
       if (saved === "en" || saved === "ar") {
         setLanguageState(saved);
-        const rtl = isRTL(saved);
-        if (I18nManager.isRTL !== rtl) {
-          I18nManager.allowRTL(rtl);
-          I18nManager.forceRTL(rtl);
-          I18nManager.swapLeftAndRightInRTL(rtl);
+        const shouldBeRTL = isRTL(saved);
+        const needsReload = applyRTLSettings(shouldBeRTL);
+        
+        if (needsReload) {
+          await reloadAppAsync();
+          return;
         }
       }
+      setIsLoaded(true);
     } catch (error) {
       console.error("Error loading language:", error);
+      setIsLoaded(true);
     }
   };
 
@@ -45,19 +60,20 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.setItem(LANGUAGE_KEY, lang);
       setLanguageState(lang);
       
-      const rtl = isRTL(lang);
-      const needsReload = I18nManager.isRTL !== rtl;
+      const shouldBeRTL = isRTL(lang);
+      const needsReload = applyRTLSettings(shouldBeRTL);
       
       if (needsReload) {
-        I18nManager.allowRTL(rtl);
-        I18nManager.forceRTL(rtl);
-        I18nManager.swapLeftAndRightInRTL(rtl);
         await reloadAppAsync();
       }
     } catch (error) {
       console.error("Error saving language:", error);
     }
   };
+
+  if (!isLoaded) {
+    return null;
+  }
 
   const t = (key: TranslationKey): string => {
     return translations[language][key] || translations.en[key] || key;

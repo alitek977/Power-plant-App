@@ -79,9 +79,7 @@ function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
           name={screen.name}
           component={screen.component}
           options={{
-            title: screen.name === "ReportsTab" 
-              ? (isRTL ? "RTL_ON" : "LTR_ON") 
-              : t(screen.titleKey),
+            title: t(screen.titleKey),
             tabBarIcon: ({ color, size }) => (
               <Feather name={screen.iconName} size={size} color={color} />
             ),
