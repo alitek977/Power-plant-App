@@ -15,6 +15,8 @@ import { useTheme } from "@/hooks/useTheme";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getFlowLabelAndStyle } from "@/lib/flowLabel";
 import {
   TURBINES,
   format2,
@@ -82,6 +84,7 @@ export default function CalculationsScreen() {
   const { theme } = useTheme();
   const layout = useResponsiveLayout();
   const { day, dateKey } = useDay();
+  const { t } = useLanguage();
 
   const calculations = useMemo(() => {
     const production = turbineProductionMwh(day);
@@ -154,11 +157,11 @@ export default function CalculationsScreen() {
               fullWidth={!layout.isTablet}
             />
             <StatCard
-              title={calculations.exportVal >= 0 ? "Export" : "Import"}
+              title={getFlowLabelAndStyle(calculations.exportVal >= 0, t, theme).text}
               value={format2(Math.abs(calculations.exportVal))}
               unit="MWh"
-              tone={calculations.exportVal >= 0 ? "blue" : "red"}
-              icon="arrow-up-right"
+              tone={getFlowLabelAndStyle(calculations.exportVal >= 0, t, theme).tone}
+              icon={calculations.exportVal >= 0 ? "arrow-up-right" : "arrow-down-left"}
               fullWidth={!layout.isTablet}
             />
             <StatCard

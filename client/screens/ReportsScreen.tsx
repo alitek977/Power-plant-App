@@ -23,6 +23,7 @@ import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Language } from "@/lib/i18n";
+import { getFlowLabelAndStyle } from "@/lib/flowLabel";
 import {
   DayData,
   getAllDaysData,
@@ -79,7 +80,8 @@ export default function ReportsScreen() {
     const production = turbineProductionMwh(day);
     const exportVal = feederExport(day);
     const consumption = production - exportVal;
-    return { production, exportVal, consumption };
+    const isExport = exportVal >= 0;
+    return { production, exportVal, consumption, isExport };
   }, [day]);
 
   const monthlyStats = useMemo(() => {
@@ -193,20 +195,25 @@ export default function ReportsScreen() {
                 </ThemedText>
               </View>
 
-              <View style={[styles.statItem, { backgroundColor: theme.primary + "15" }]}>
-                <View style={[styles.statIconCircle, { backgroundColor: theme.primary + "20" }]}>
-                  <Feather name="arrow-up-right" size={18} color={theme.primary} />
-                </View>
-                <ThemedText type="caption" style={{ color: theme.primary, marginTop: Spacing.sm }}>
-                  {currentDayStats.exportVal >= 0 ? "Export" : "Import"}
-                </ThemedText>
-                <ThemedText type="h3" style={{ color: theme.primary, fontFamily: Typography.mono.fontFamily }}>
-                  {format2(Math.abs(currentDayStats.exportVal))}
-                </ThemedText>
-                <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                  MWh
-                </ThemedText>
-              </View>
+              {(() => {
+                const flowStyle = getFlowLabelAndStyle(currentDayStats.isExport, t, theme);
+                return (
+                  <View style={[styles.statItem, { backgroundColor: flowStyle.color + "15" }]}>
+                    <View style={[styles.statIconCircle, { backgroundColor: flowStyle.color + "20" }]}>
+                      <Feather name={currentDayStats.isExport ? "arrow-up-right" : "arrow-down-left"} size={18} color={flowStyle.color} />
+                    </View>
+                    <ThemedText type="caption" style={{ color: flowStyle.color, marginTop: Spacing.sm }}>
+                      {flowStyle.text}
+                    </ThemedText>
+                    <ThemedText type="h3" style={{ color: flowStyle.color, fontFamily: Typography.mono.fontFamily }}>
+                      {format2(Math.abs(currentDayStats.exportVal))}
+                    </ThemedText>
+                    <ThemedText type="caption" style={{ color: theme.textSecondary }}>
+                      MWh
+                    </ThemedText>
+                  </View>
+                );
+              })()}
 
               <View style={[styles.statItem, { backgroundColor: theme.warning + "15" }]}>
                 <View style={[styles.statIconCircle, { backgroundColor: theme.warning + "20" }]}>
