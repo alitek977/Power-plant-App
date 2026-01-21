@@ -16,6 +16,7 @@ import { KeyboardAwareScrollViewCompat } from "@/components/KeyboardAwareScrollV
 import { ThemedText } from "@/components/ThemedText";
 import { CalendarPicker } from "@/components/CalendarPicker";
 import { NumericInputField } from "@/components/NumericInputField";
+import { HoursInputField } from "@/components/HoursInputField";
 import { useTheme } from "@/hooks/useTheme";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography, Shadows } from "@/constants/theme";
@@ -219,7 +220,7 @@ export default function TurbinesScreen() {
                       }
                       testID={`input-${t}-present`}
                     />
-                    <NumericInputField
+                    <HoursInputField
                       label={translate("hours")}
                       value={day.turbines[t]?.hours || "24"}
                       onChangeValue={(v) =>
