@@ -34,16 +34,14 @@ const TAB_SCREENS: TabConfig[] = [
   { name: "ReportsTab", component: ReportsStackNavigator, titleKey: "tab_reports", iconName: "file-text" },
 ];
 
-export default function MainTabNavigator() {
+function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
   const { theme } = useTheme();
   const { t } = useLanguage();
 
-  const isRTL = I18nManager.isRTL;
   const screens = isRTL ? [...TAB_SCREENS].reverse() : TAB_SCREENS;
 
   return (
     <Tab.Navigator
-      key={isRTL ? "rtl" : "ltr"}
       initialRouteName={isRTL ? "ReportsTab" : "FeedersTab"}
       screenOptions={{
         tabBarActiveTintColor: theme.primary,
@@ -90,4 +88,9 @@ export default function MainTabNavigator() {
       ))}
     </Tab.Navigator>
   );
+}
+
+export default function MainTabNavigator() {
+  const isRTL = I18nManager.isRTL;
+  return <TabNavigatorContent key={isRTL ? "rtl" : "ltr"} isRTL={isRTL} />;
 }
