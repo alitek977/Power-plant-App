@@ -38,11 +38,13 @@ export default function MainTabNavigator() {
   const { theme } = useTheme();
   const { t } = useLanguage();
 
-  const screens = I18nManager.isRTL ? [...TAB_SCREENS].reverse() : TAB_SCREENS;
+  const isRTL = I18nManager.isRTL;
+  const screens = isRTL ? [...TAB_SCREENS].reverse() : TAB_SCREENS;
 
   return (
     <Tab.Navigator
-      initialRouteName="FeedersTab"
+      key={isRTL ? "rtl" : "ltr"}
+      initialRouteName={isRTL ? "ReportsTab" : "FeedersTab"}
       screenOptions={{
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.tabIconDefault,
@@ -50,7 +52,7 @@ export default function MainTabNavigator() {
           fontFamily: Typography.small.fontFamily,
           fontSize: 11,
           fontWeight: "700",
-          writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
+          writingDirection: isRTL ? "rtl" : "ltr",
         },
         tabBarStyle: {
           position: "absolute",
@@ -61,7 +63,6 @@ export default function MainTabNavigator() {
           }),
           borderTopWidth: 0,
           elevation: 0,
-          flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
         },
         tabBarBackground: () =>
           Platform.OS === "ios" ? (
