@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { Platform, StyleSheet, I18nManager } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import FeedersStackNavigator from "@/navigation/FeedersStackNavigator";
 import TurbinesStackNavigator from "@/navigation/TurbinesStackNavigator";
 import CalculationsStackNavigator from "@/navigation/CalculationsStackNavigator";
@@ -42,7 +42,7 @@ function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
 
   return (
     <Tab.Navigator
-      initialRouteName={isRTL ? "ReportsTab" : "FeedersTab"}
+      initialRouteName="FeedersTab"
       screenOptions={{
         tabBarActiveTintColor: theme.primary,
         tabBarInactiveTintColor: theme.tabIconDefault,
@@ -79,7 +79,9 @@ function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
           name={screen.name}
           component={screen.component}
           options={{
-            title: t(screen.titleKey),
+            title: screen.name === "ReportsTab" 
+              ? (isRTL ? "RTL_ON" : "LTR_ON") 
+              : t(screen.titleKey),
             tabBarIcon: ({ color, size }) => (
               <Feather name={screen.iconName} size={size} color={color} />
             ),
@@ -91,6 +93,7 @@ function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
 }
 
 export default function MainTabNavigator() {
-  const isRTL = I18nManager.isRTL;
+  const { language } = useLanguage();
+  const isRTL = language === "ar";
   return <TabNavigatorContent key={isRTL ? "rtl" : "ltr"} isRTL={isRTL} />;
 }
