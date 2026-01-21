@@ -118,15 +118,15 @@ export default function ReportsScreen() {
 
       if (Platform.OS === "web") {
         await Clipboard.setStringAsync(jsonData);
-        Alert.alert(t("exported"), t("data_copied"));
+        Alert.alert("Exported", "Data copied to clipboard");
       } else {
         await Share.share({
           message: jsonData,
-          title: t("power_plant_export"),
+          title: "Power Plant Data Export",
         });
       }
     } catch (error) {
-      Alert.alert(t("error"), t("failed_export"));
+      Alert.alert("Error", "Failed to export data");
     }
   };
 
@@ -135,9 +135,9 @@ export default function ReportsScreen() {
     try {
       const jsonData = await exportAllData();
       await Clipboard.setStringAsync(jsonData);
-      Alert.alert(t("copied"), t("data_copied"));
+      Alert.alert("Copied", "Data copied to clipboard");
     } catch (error) {
-      Alert.alert(t("error"), t("failed_copy"));
+      Alert.alert("Error", "Failed to copy data");
     }
   };
 
@@ -147,10 +147,6 @@ export default function ReportsScreen() {
   };
 
   const flexRowStyle = isRTL ? styles.flexRowRTL : styles.flexRow;
-
-  const getDaysLabel = (count: number) => {
-    return `${count} ${count === 1 ? t("day") : t("days")}`;
-  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
@@ -169,7 +165,7 @@ export default function ReportsScreen() {
       >
         <Animated.View entering={FadeInDown.duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("current_day_report")}
+            Current Day Report
           </ThemedText>
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
             <View style={[styles.cardHeader, { borderBottomColor: theme.border }]}>
@@ -187,13 +183,13 @@ export default function ReportsScreen() {
                   <Feather name="zap" size={18} color={theme.success} />
                 </View>
                 <ThemedText type="caption" style={{ color: theme.success, marginTop: Spacing.sm }}>
-                  {t("production")}
+                  Production
                 </ThemedText>
                 <ThemedText type="h3" style={{ color: theme.success, fontFamily: Typography.mono.fontFamily }}>
                   {format2(currentDayStats.production)}
                 </ThemedText>
                 <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                  {t("mwh")}
+                  MWh
                 </ThemedText>
               </View>
 
@@ -202,13 +198,13 @@ export default function ReportsScreen() {
                   <Feather name="arrow-up-right" size={18} color={theme.primary} />
                 </View>
                 <ThemedText type="caption" style={{ color: theme.primary, marginTop: Spacing.sm }}>
-                  {currentDayStats.exportVal >= 0 ? t("export") : t("import")}
+                  {currentDayStats.exportVal >= 0 ? "Export" : "Import"}
                 </ThemedText>
                 <ThemedText type="h3" style={{ color: theme.primary, fontFamily: Typography.mono.fontFamily }}>
                   {format2(Math.abs(currentDayStats.exportVal))}
                 </ThemedText>
                 <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                  {t("mwh")}
+                  MWh
                 </ThemedText>
               </View>
 
@@ -217,13 +213,13 @@ export default function ReportsScreen() {
                   <Feather name="home" size={18} color={theme.warning} />
                 </View>
                 <ThemedText type="caption" style={{ color: theme.warning, marginTop: Spacing.sm }}>
-                  {t("consumption")}
+                  Consumption
                 </ThemedText>
                 <ThemedText type="h3" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
                   {format2(currentDayStats.consumption)}
                 </ThemedText>
                 <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                  {t("mwh")}
+                  MWh
                 </ThemedText>
               </View>
             </View>
@@ -232,7 +228,7 @@ export default function ReportsScreen() {
 
         <Animated.View entering={FadeInDown.delay(100).duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("monthly_statistics")}
+            Monthly Statistics
           </ThemedText>
 
           {monthlyStats.length > 0 ? (
@@ -256,7 +252,7 @@ export default function ReportsScreen() {
                     </View>
                     <View style={[styles.daysBadge, { backgroundColor: theme.backgroundSecondary }]}>
                       <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                        {getDaysLabel(stats.days)}
+                        {stats.days} day{stats.days !== 1 ? "s" : ""}
                       </ThemedText>
                     </View>
                   </View>
@@ -265,32 +261,32 @@ export default function ReportsScreen() {
                     <View style={styles.monthStatItem}>
                       <View style={[styles.monthStatDot, { backgroundColor: theme.success }]} />
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                        {t("production")}
+                        Production
                       </ThemedText>
                       <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
                         {format2(stats.totalProduction)}
                       </ThemedText>
-                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
+                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>MWh</ThemedText>
                     </View>
                     <View style={styles.monthStatItem}>
                       <View style={[styles.monthStatDot, { backgroundColor: theme.primary }]} />
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                        {stats.totalExport >= 0 ? t("export") : t("withdrawal")}
+                        Export
                       </ThemedText>
                       <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
-                        {format2(Math.abs(stats.totalExport))}
+                        {format2(stats.totalExport)}
                       </ThemedText>
-                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
+                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>MWh</ThemedText>
                     </View>
                     <View style={styles.monthStatItem}>
                       <View style={[styles.monthStatDot, { backgroundColor: theme.warning }]} />
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                        {t("consumption")}
+                        Consumption
                       </ThemedText>
                       <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
                         {format2(stats.totalConsumption)}
                       </ThemedText>
-                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
+                      <ThemedText type="caption" style={{ color: theme.textSecondary }}>MWh</ThemedText>
                     </View>
                   </View>
                 </Animated.View>
@@ -302,10 +298,10 @@ export default function ReportsScreen() {
                 <Feather name="inbox" size={32} color={theme.primary} />
               </View>
               <ThemedText type="body" style={{ color: theme.text, marginTop: Spacing.lg, fontWeight: "600" }}>
-                {t("no_historical_data")}
+                No historical data available
               </ThemedText>
               <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center", marginTop: Spacing.xs }}>
-                {t("save_first_day_hint")}
+                Save your first day's data to see monthly statistics
               </ThemedText>
             </View>
           )}
@@ -313,7 +309,7 @@ export default function ReportsScreen() {
 
         <Animated.View entering={FadeInDown.delay(300).duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("data_management")}
+            Data Management
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
@@ -327,14 +323,14 @@ export default function ReportsScreen() {
               </View>
               <View style={styles.actionText}>
                 <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
-                  {t("export_data")}
+                  Export Data
                 </ThemedText>
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("share_as_json")}
+                  Share all data as JSON
                 </ThemedText>
               </View>
               <View style={[styles.actionArrow, { backgroundColor: theme.backgroundSecondary }]}>
-                <Feather name={isRTL ? "chevron-left" : "chevron-right"} size={18} color={theme.textSecondary} />
+                <Feather name="chevron-right" size={18} color={theme.textSecondary} />
               </View>
             </Pressable>
 
@@ -348,14 +344,14 @@ export default function ReportsScreen() {
               </View>
               <View style={styles.actionText}>
                 <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
-                  {t("copy_to_clipboard")}
+                  Copy to Clipboard
                 </ThemedText>
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("copy_all_data")}
+                  Copy all data to clipboard
                 </ThemedText>
               </View>
               <View style={[styles.actionArrow, { backgroundColor: theme.backgroundSecondary }]}>
-                <Feather name={isRTL ? "chevron-left" : "chevron-right"} size={18} color={theme.textSecondary} />
+                <Feather name="chevron-right" size={18} color={theme.textSecondary} />
               </View>
             </Pressable>
           </View>
@@ -364,7 +360,7 @@ export default function ReportsScreen() {
             <View style={[styles.footerBadge, { backgroundColor: theme.backgroundDefault }]}>
               <Feather name="database" size={14} color={theme.textSecondary} />
               <ThemedText type="small" style={{ color: theme.textSecondary, marginLeft: Spacing.sm }}>
-                {getDaysLabel(allDays.length)} {t("data_stored_locally")}
+                {allDays.length} day{allDays.length !== 1 ? "s" : ""} of data stored locally
               </ThemedText>
             </View>
           </View>
@@ -426,7 +422,7 @@ export default function ReportsScreen() {
 
           <View style={styles.versionInfo}>
             <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center" }}>
-              {t("version")}
+              Power Plant Calculations v1.0.0
             </ThemedText>
           </View>
         </Animated.View>

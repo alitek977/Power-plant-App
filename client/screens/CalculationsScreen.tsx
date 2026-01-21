@@ -13,7 +13,6 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 import { ThemedText } from "@/components/ThemedText";
 import { useTheme } from "@/hooks/useTheme";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import {
@@ -83,19 +82,18 @@ export default function CalculationsScreen() {
   const { theme } = useTheme();
   const layout = useResponsiveLayout();
   const { day, dateKey } = useDay();
-  const { t } = useLanguage();
 
   const calculations = useMemo(() => {
     const production = turbineProductionMwh(day);
     const exportVal = feederExport(day);
     const consumption = production - exportVal;
 
-    const turbineData = TURBINES.map((turbine) => {
-      const computed = turbineRowComputed(day, turbine);
+    const turbineData = TURBINES.map((t) => {
+      const computed = turbineRowComputed(day, t);
       const gasM3 = gasForTurbine(computed.diff, computed.mwPerHr);
       const gasMMscf = m3ToMMscf(gasM3);
       return {
-        t: turbine,
+        t,
         ...computed,
         gasM3,
         gasMMscf,
@@ -135,7 +133,7 @@ export default function CalculationsScreen() {
             <Feather name="calendar" size={16} color={theme.primary} />
           </View>
           <ThemedText type="body" style={{ marginLeft: Spacing.md, color: theme.textSecondary }}>
-            {t("calculations_for")}{" "}
+            Calculations for{" "}
             <ThemedText type="body" style={{ color: theme.text, fontFamily: Typography.h4.fontFamily }}>
               {dateKey}
             </ThemedText>
@@ -144,29 +142,29 @@ export default function CalculationsScreen() {
 
         <Animated.View entering={FadeInDown.delay(50).duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("energy_summary")}
+            Energy Summary
           </ThemedText>
           <View style={layout.isTablet ? styles.tabletStatsGrid : styles.mobileStatsStack}>
             <StatCard
-              title={t("production")}
+              title="Production"
               value={format2(calculations.production)}
-              unit={t("mwh")}
+              unit="MWh"
               tone="green"
               icon="zap"
               fullWidth={!layout.isTablet}
             />
             <StatCard
-              title={calculations.exportVal >= 0 ? t("export") : t("import")}
+              title={calculations.exportVal >= 0 ? "Export" : "Import"}
               value={format2(Math.abs(calculations.exportVal))}
-              unit={t("mwh")}
+              unit="MWh"
               tone={calculations.exportVal >= 0 ? "blue" : "red"}
               icon="arrow-up-right"
               fullWidth={!layout.isTablet}
             />
             <StatCard
-              title={t("consumption")}
+              title="Consumption"
               value={format2(calculations.consumption)}
-              unit={t("mwh")}
+              unit="MWh"
               tone="yellow"
               icon="home"
               fullWidth={!layout.isTablet}
@@ -176,7 +174,7 @@ export default function CalculationsScreen() {
 
         <Animated.View entering={FadeInDown.delay(150).duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("gas_consumption")}
+            Gas Consumption
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
@@ -185,25 +183,25 @@ export default function CalculationsScreen() {
                 <Feather name="droplet" size={18} color={theme.warning} />
               </View>
               <ThemedText type="h4" style={{ marginLeft: Spacing.md }}>
-                {t("per_turbine")}
+                Per Turbine
               </ThemedText>
             </View>
 
             <View style={[styles.tableHeader, { borderBottomColor: theme.border }]}>
               <ThemedText type="caption" style={[styles.tableCell, { flex: 0.8, color: theme.textSecondary }]}>
-                {t("turbine")}
+                Turbine
               </ThemedText>
               <ThemedText type="caption" style={[styles.tableCell, { color: theme.textSecondary }]}>
-                {t("diff_mwh")}
+                Diff (MWh)
               </ThemedText>
               <ThemedText type="caption" style={[styles.tableCell, { color: theme.textSecondary }]}>
-                {t("mw_per_hr")}
+                MW/Hr
               </ThemedText>
               <ThemedText type="caption" style={[styles.tableCell, { color: theme.textSecondary }]}>
-                {t("gas_m3")}
+                Gas (m³)
               </ThemedText>
               <ThemedText type="caption" style={[styles.tableCell, { color: theme.textSecondary }]}>
-                {t("mmscf")}
+                MMscf
               </ThemedText>
             </View>
 
@@ -243,16 +241,16 @@ export default function CalculationsScreen() {
 
           <View style={styles.statsRow}>
             <StatCard
-              title={t("total_gas")}
+              title="Total Gas"
               value={format2(calculations.totalGasM3)}
               unit="m³"
               tone="yellow"
               icon="droplet"
             />
             <StatCard
-              title={t("total_gas")}
+              title="Total Gas"
               value={format4(calculations.totalGasMMscf)}
-              unit={t("mmscf")}
+              unit="MMscf"
               tone="yellow"
               icon="droplet"
             />
@@ -261,7 +259,7 @@ export default function CalculationsScreen() {
 
         <Animated.View entering={FadeInDown.delay(250).duration(300)}>
           <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("formula_reference")}
+            Formula Reference
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
@@ -269,65 +267,65 @@ export default function CalculationsScreen() {
               <View style={styles.formulaLabelRow}>
                 <View style={[styles.formulaDot, { backgroundColor: theme.success }]} />
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("production")}
+                  Production
                 </ThemedText>
               </View>
               <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, color: theme.primary }}>
-                {t("sum_turbine_diff")}
+                Sum(Turbine Diff)
               </ThemedText>
             </View>
             <View style={[styles.formulaRow, { borderBottomWidth: 1, borderBottomColor: theme.border }]}>
               <View style={styles.formulaLabelRow}>
                 <View style={[styles.formulaDot, { backgroundColor: theme.primary }]} />
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("export_import")}
+                  Export/Import
                 </ThemedText>
               </View>
               <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, color: theme.primary }}>
-                {t("sum_feeder_diff")}
+                Sum(Feeder Diff)
               </ThemedText>
             </View>
             <View style={[styles.formulaRow, { borderBottomWidth: 1, borderBottomColor: theme.border }]}>
               <View style={styles.formulaLabelRow}>
                 <View style={[styles.formulaDot, { backgroundColor: theme.warning }]} />
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("consumption")}
+                  Consumption
                 </ThemedText>
               </View>
               <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, color: theme.primary }}>
-                {t("production_minus_export")}
+                Production - Export
               </ThemedText>
             </View>
             <View style={styles.formulaRow}>
               <View style={styles.formulaLabelRow}>
                 <View style={[styles.formulaDot, { backgroundColor: theme.warning }]} />
                 <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("gas_formula")}
+                  Gas Formula
                 </ThemedText>
               </View>
               <View style={styles.gasFormulas}>
                 <View style={styles.gasFormulaRow}>
-                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mw_per_hr")} ≤ 3:</ThemedText>
+                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>MW/h ≤ 3:</ThemedText>
                   <ThemedText type="caption" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
-                    {t("diff")} × 1000
+                    Diff × 1000
                   </ThemedText>
                 </View>
                 <View style={styles.gasFormulaRow}>
-                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mw_per_hr")} ≤ 5:</ThemedText>
+                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>MW/h ≤ 5:</ThemedText>
                   <ThemedText type="caption" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
-                    {t("diff")} × 700
+                    Diff × 700
                   </ThemedText>
                 </View>
                 <View style={styles.gasFormulaRow}>
-                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mw_per_hr")} ≤ 8:</ThemedText>
+                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>MW/h ≤ 8:</ThemedText>
                   <ThemedText type="caption" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
-                    {t("diff")} × 500
+                    Diff × 500
                   </ThemedText>
                 </View>
                 <View style={styles.gasFormulaRow}>
-                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mw_per_hr")} {">"} 8:</ThemedText>
+                  <ThemedText type="caption" style={{ color: theme.textSecondary }}>{"MW/h > 8:"}</ThemedText>
                   <ThemedText type="caption" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
-                    {t("diff")} × 420
+                    Diff × 420
                   </ThemedText>
                 </View>
               </View>

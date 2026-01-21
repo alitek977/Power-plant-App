@@ -74,18 +74,6 @@ export function format4(v: number): string {
   return (Math.round(v * 10000) / 10000).toFixed(4);
 }
 
-export function formatSigned2(v: number): string {
-  const absValue = Math.abs(v);
-  const formatted = (Math.round(absValue * 100) / 100).toFixed(2);
-  return v < 0 ? `-${formatted}` : formatted;
-}
-
-export function formatSigned4(v: number): string {
-  const absValue = Math.abs(v);
-  const formatted = (Math.round(absValue * 10000) / 10000).toFixed(4);
-  return v < 0 ? `-${formatted}` : formatted;
-}
-
 export function formatWithCommas(value: string | number): string {
   const numStr = String(value).replace(/,/g, "");
   if (!numStr || numStr === "-") return numStr;
