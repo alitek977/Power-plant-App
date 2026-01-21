@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18nManager } from "react-native";
+import { reloadAppAsync } from "expo";
 
 import { Language, translations, TranslationKey, isRTL } from "@/lib/i18n";
 
@@ -27,18 +28,15 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const saved = await AsyncStorage.getItem(LANGUAGE_KEY);
       if (saved === "en" || saved === "ar") {
         setLanguageState(saved);
-        updateRTL(saved);
+        const rtl = isRTL(saved);
+        if (I18nManager.isRTL !== rtl) {
+          I18nManager.allowRTL(rtl);
+          I18nManager.forceRTL(rtl);
+          I18nManager.swapLeftAndRightInRTL(rtl);
+        }
       }
     } catch (error) {
       console.error("Error loading language:", error);
-    }
-  };
-
-  const updateRTL = (lang: Language) => {
-    const rtl = isRTL(lang);
-    if (I18nManager.isRTL !== rtl) {
-      I18nManager.allowRTL(rtl);
-      I18nManager.forceRTL(rtl);
     }
   };
 
@@ -46,7 +44,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       await AsyncStorage.setItem(LANGUAGE_KEY, lang);
       setLanguageState(lang);
-      updateRTL(lang);
+      
+      const rtl = isRTL(lang);
+      const needsReload = I18nManager.isRTL !== rtl;
+      
+      if (needsReload) {
+        I18nManager.allowRTL(rtl);
+        I18nManager.forceRTL(rtl);
+        I18nManager.swapLeftAndRightInRTL(rtl);
+        await reloadAppAsync();
+      }
     } catch (error) {
       console.error("Error saving language:", error);
     }

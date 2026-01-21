@@ -1,4 +1,4 @@
-import { Text, type TextProps } from "react-native";
+import { Text, type TextProps, I18nManager } from "react-native";
 
 import { useTheme } from "@/hooks/useTheme";
 import { Typography } from "@/constants/theme";
@@ -57,7 +57,12 @@ export function ThemedText({
     }
   };
 
+  const rtlStyle = {
+    textAlign: I18nManager.isRTL ? "right" as const : "left" as const,
+    writingDirection: I18nManager.isRTL ? "rtl" as const : "ltr" as const,
+  };
+
   return (
-    <Text style={[{ color: getColor() }, getTypeStyle(), style]} {...rest} />
+    <Text style={[{ color: getColor() }, getTypeStyle(), rtlStyle, style]} {...rest} />
   );
 }

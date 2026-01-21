@@ -10,13 +10,9 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.powerplant.calculations",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
+      "bundleIdentifier": "com.powerplant.calculations"
     },
     "android": {
-      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#0A0E1A",
         "foregroundImage": "./assets/images/icon.png"
@@ -46,11 +42,6 @@
     ],
     "experiments": {
       "reactCompiler": true
-    },
-    "extra": {
-      "eas": {
-        "projectId": "34ab1c58-342c-4653-8b01-fe8b919d8940"
-      }
     }
   }
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, I18nManager } from "react-native";
 import FeedersStackNavigator from "@/navigation/FeedersStackNavigator";
 import TurbinesStackNavigator from "@/navigation/TurbinesStackNavigator";
 import CalculationsStackNavigator from "@/navigation/CalculationsStackNavigator";
@@ -20,9 +20,25 @@ export type MainTabParamList = {
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
+type TabConfig = {
+  name: keyof MainTabParamList;
+  component: React.ComponentType<object>;
+  titleKey: "tab_feeders" | "tab_turbines" | "tab_calculations" | "tab_reports";
+  iconName: "activity" | "wind" | "cpu" | "file-text";
+};
+
+const TAB_SCREENS: TabConfig[] = [
+  { name: "FeedersTab", component: FeedersStackNavigator, titleKey: "tab_feeders", iconName: "activity" },
+  { name: "TurbinesTab", component: TurbinesStackNavigator, titleKey: "tab_turbines", iconName: "wind" },
+  { name: "CalculationsTab", component: CalculationsStackNavigator, titleKey: "tab_calculations", iconName: "cpu" },
+  { name: "ReportsTab", component: ReportsStackNavigator, titleKey: "tab_reports", iconName: "file-text" },
+];
+
 export default function MainTabNavigator() {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { t } = useLanguage();
+
+  const screens = I18nManager.isRTL ? [...TAB_SCREENS].reverse() : TAB_SCREENS;
 
   return (
     <Tab.Navigator
@@ -34,6 +50,7 @@ export default function MainTabNavigator() {
           fontFamily: Typography.small.fontFamily,
           fontSize: 11,
           fontWeight: "700",
+          writingDirection: I18nManager.isRTL ? "rtl" : "ltr",
         },
         tabBarStyle: {
           position: "absolute",
@@ -44,6 +61,7 @@ export default function MainTabNavigator() {
           }),
           borderTopWidth: 0,
           elevation: 0,
+          flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
         },
         tabBarBackground: () =>
           Platform.OS === "ios" ? (
@@ -56,46 +74,19 @@ export default function MainTabNavigator() {
         headerShown: false,
       }}
     >
-      <Tab.Screen
-        name="FeedersTab"
-        component={FeedersStackNavigator}
-        options={{
-          title: t("tab_feeders"),
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="activity" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="TurbinesTab"
-        component={TurbinesStackNavigator}
-        options={{
-          title: t("tab_turbines"),
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="wind" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="CalculationsTab"
-        component={CalculationsStackNavigator}
-        options={{
-          title: t("tab_calculations"),
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="cpu" size={size} color={color} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ReportsTab"
-        component={ReportsStackNavigator}
-        options={{
-          title: t("tab_reports"),
-          tabBarIcon: ({ color, size }) => (
-            <Feather name="file-text" size={size} color={color} />
-          ),
-        }}
-      />
+      {screens.map((screen) => (
+        <Tab.Screen
+          key={screen.name}
+          name={screen.name}
+          component={screen.component}
+          options={{
+            title: t(screen.titleKey),
+            tabBarIcon: ({ color, size }) => (
+              <Feather name={screen.iconName} size={size} color={color} />
+            ),
+          }}
+        />
+      ))}
     </Tab.Navigator>
   );
 }
