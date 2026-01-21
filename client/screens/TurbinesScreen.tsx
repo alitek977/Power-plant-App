@@ -257,7 +257,7 @@ export default function TurbinesScreen() {
                         type="h4"
                         style={{ color: hasError ? "#f04438" : theme.text, fontFamily: Typography.mono.fontFamily }}
                       >
-                        {format2(Math.abs(row.diff))} MWh
+                        {format2(Math.abs(row.diff))} {translate("mwh")}
                       </ThemedText>
                     </View>
                     <View style={[styles.resultBox, { backgroundColor: theme.success + "15", borderColor: theme.success + "40" }]}>
@@ -306,7 +306,7 @@ export default function TurbinesScreen() {
             {format2(Math.abs(totalProduction))}
           </ThemedText>
           <ThemedText type="small" style={{ color: theme.textSecondary, marginTop: Spacing.xs }}>
-            MWh
+            {translate("mwh")}
           </ThemedText>
         </Animated.View>
 
@@ -319,7 +319,7 @@ export default function TurbinesScreen() {
               <Feather name="list" size={18} color={theme.primary} />
             </View>
             <ThemedText type="h3" style={{ marginLeft: Spacing.md }}>
-              Turbines Summary
+              {translate("turbines_summary")}
             </ThemedText>
           </View>
 
@@ -339,7 +339,7 @@ export default function TurbinesScreen() {
               <View style={styles.summaryValues}>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                    Prev
+                    {translate("prev_short")}
                   </ThemedText>
                   <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily }}>
                     {format2(Math.abs(r.prev))}
@@ -347,7 +347,7 @@ export default function TurbinesScreen() {
                 </View>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                    Pres
+                    {translate("pres_short")}
                   </ThemedText>
                   <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily }}>
                     {format2(Math.abs(r.pres))}
@@ -355,7 +355,7 @@ export default function TurbinesScreen() {
                 </View>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.primary }}>
-                    Diff
+                    {translate("diff")}
                   </ThemedText>
                   <ThemedText
                     type="small"
@@ -366,7 +366,7 @@ export default function TurbinesScreen() {
                 </View>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.success }}>
-                    MW/Hr
+                    {translate("mw_per_hr")}
                   </ThemedText>
                   <ThemedText
                     type="small"

@@ -233,7 +233,7 @@ export default function FeedersScreen() {
                     >
                       {format2(row.diff)}{" "}
                       <ThemedText type="body" style={{ color: theme.textSecondary }}>
-                        MW
+                        {t("mw_unit")}
                       </ThemedText>
                     </ThemedText>
                   </View>
@@ -312,7 +312,7 @@ export default function FeedersScreen() {
               <View style={styles.summaryValues}>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                    Start
+                    {t("start")}
                   </ThemedText>
                   <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily }}>
                     {format2(r.start)}
@@ -320,7 +320,7 @@ export default function FeedersScreen() {
                 </View>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                    End
+                    {t("end")}
                   </ThemedText>
                   <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily }}>
                     {format2(r.end)}
@@ -328,7 +328,7 @@ export default function FeedersScreen() {
                 </View>
                 <View style={styles.summaryValue}>
                   <ThemedText type="caption" style={{ color: theme.primary }}>
-                    Diff
+                    {t("diff")}
                   </ThemedText>
                   <ThemedText
                     type="body"

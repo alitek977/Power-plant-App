@@ -30,12 +30,15 @@ export const translations = {
     start: "Start",
     end: "End",
     diff: "Diff",
+    mw_unit: "MW",
     
     // Turbines Screen
     turbines_title: "Turbines",
     turbine: "Turbine",
     previous: "Previous",
     present: "Present",
+    prev_short: "Prev",
+    pres_short: "Pres",
     hours: "Hours",
     mw_per_hr: "MW/Hr",
     turbine_error: "Error: Present value is less than Previous",
@@ -137,17 +140,20 @@ export const translations = {
     start: "البداية",
     end: "النهاية",
     diff: "الفرق",
+    mw_unit: "م.و",
     
     // Turbines Screen
     turbines_title: "التوربينات",
     turbine: "توربين",
     previous: "السابق",
     present: "الحالي",
+    prev_short: "السابق",
+    pres_short: "الحالي",
     hours: "الساعات",
-    mw_per_hr: "ميجاواط/ساعة",
+    mw_per_hr: "م.و/س",
     turbine_error: "خطأ: القيمة الحالية أقل من السابقة",
     total_generation: "إجمالي التوليد",
-    avg_mw_per_hr: "متوسط ميجاواط/ساعة",
+    avg_mw_per_hr: "متوسط م.و/س",
     turbines_summary: "ملخص التوربينات",
     
     // Calculations Screen
