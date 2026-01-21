@@ -275,10 +275,10 @@ export default function ReportsScreen() {
                     <View style={styles.monthStatItem}>
                       <View style={[styles.monthStatDot, { backgroundColor: theme.primary }]} />
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
-                        {t("export")}
+                        {stats.totalExport >= 0 ? t("export") : t("withdrawal")}
                       </ThemedText>
                       <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
-                        {format2(stats.totalExport)}
+                        {format2(Math.abs(stats.totalExport))}
                       </ThemedText>
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
                     </View>
