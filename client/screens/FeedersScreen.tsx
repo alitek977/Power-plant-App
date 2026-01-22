@@ -21,7 +21,7 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Colors, Typography, Shadows } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { FEEDERS, num, format2 } from "@/lib/storage";
+import { FEEDERS, num, format2, numberTextStyle } from "@/lib/storage";
 
 function getDayLetter(dateStr: string): string {
   const letters = ["B", "D", "A", "C"];

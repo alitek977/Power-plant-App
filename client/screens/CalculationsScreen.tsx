@@ -26,6 +26,7 @@ import {
   turbineRowComputed,
   gasForTurbine,
   m3ToMMscf,
+  numberTextStyle,
 } from "@/lib/storage";
 
 interface StatCardProps {

@@ -22,7 +22,7 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography, Shadows } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { TURBINES, format2, turbineRowComputed } from "@/lib/storage";
+import { TURBINES, format2, turbineRowComputed, numberTextStyle } from "@/lib/storage";
 
 function getDayLetter(dateStr: string): string {
   const letters = ["B", "D", "A", "C"];
