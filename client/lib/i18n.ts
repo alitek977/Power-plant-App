@@ -94,7 +94,6 @@ export const translations = {
     share_as_json: "Share all data as JSON",
     feeder_name: "Feeder Name",
     turbine_name: "Turbine Name",
-    end_of_day: "End of Day",
     metric: "Metric",
     value: "Value",
     unit: "Unit",
@@ -114,6 +113,12 @@ export const translations = {
     failed_export: "Failed to export data",
     failed_copy: "Failed to copy data",
     version: "Power Plant Calculations v1.0.0",
+    
+    // Feedback messages
+    msg_saved_success: "Saved successfully",
+    msg_reset_done: "Reset completed",
+    msg_clear_all_done: "All data cleared",
+    msg_error_generic: "An error occurred",
     
     // Calendar
     select_date: "Select Date",
@@ -227,7 +232,6 @@ export const translations = {
     share_as_json: "مشاركة جميع البيانات بصيغة JSON",
     feeder_name: "اسم المغذي",
     turbine_name: "اسم التوربين",
-    end_of_day: "نهاية اليوم",
     metric: "المقياس",
     value: "القيمة",
     unit: "الوحدة",
@@ -247,6 +251,12 @@ export const translations = {
     failed_export: "فشل تصدير البيانات",
     failed_copy: "فشل نسخ البيانات",
     version: "حسابات محطة الطاقة الإصدار 1.0.0",
+    
+    // Feedback messages
+    msg_saved_success: "تم الحفظ بنجاح",
+    msg_reset_done: "تمت إعادة التعيين",
+    msg_clear_all_done: "تم مسح جميع البيانات",
+    msg_error_generic: "حدث خطأ",
     
     // Calendar
     select_date: "اختر التاريخ",

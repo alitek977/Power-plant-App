@@ -22,6 +22,7 @@ import { Spacing, BorderRadius, Colors, Typography, Shadows } from "@/constants/
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { FEEDERS, num, format2, numberTextStyle } from "@/lib/storage";
+import { showSuccess } from "@/utils/notify";
 
 function getDayLetter(dateStr: string): string {
   const letters = ["B", "D", "A", "C"];
@@ -57,11 +58,13 @@ export default function FeedersScreen() {
   const handleSave = async () => {
     await saveDay();
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    showSuccess(t("msg_saved_success"));
   };
 
   const handleReset = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     resetDay();
+    showSuccess(t("msg_reset_done"));
   };
 
   const [showDatePicker, setShowDatePicker] = useState(false);

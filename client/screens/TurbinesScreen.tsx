@@ -23,6 +23,7 @@ import { Spacing, BorderRadius, Typography, Shadows } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TURBINES, format2, turbineRowComputed, numberTextStyle } from "@/lib/storage";
+import { showSuccess } from "@/utils/notify";
 
 function getDayLetter(dateStr: string): string {
   const letters = ["B", "D", "A", "C"];
@@ -55,11 +56,13 @@ export default function TurbinesScreen() {
   const handleSave = async () => {
     await saveDay();
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    showSuccess(translate("msg_saved_success"));
   };
 
   const handleReset = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     resetDay();
+    showSuccess(translate("msg_reset_done"));
   };
 
   const [showDatePicker, setShowDatePicker] = useState(false);
