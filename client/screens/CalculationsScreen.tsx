@@ -62,7 +62,7 @@ function StatCard({ title, value, unit, subtitle, tone = "blue", icon, fullWidth
         {title}
       </ThemedText>
       <View style={styles.statValueRow}>
-        <ThemedText type="h2" style={{ color, fontFamily: Typography.mono.fontFamily }}>
+        <ThemedText type="h2" style={{ color, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
           {value}
         </ThemedText>
         <ThemedText type="small" style={{ color: theme.textSecondary, marginLeft: Spacing.xs }}>
@@ -227,16 +227,16 @@ export default function CalculationsScreen() {
                     </ThemedText>
                   </View>
                 </View>
-                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily }]}>
+                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, ...numberTextStyle }]}>
                   {format2(r.diff)}
                 </ThemedText>
-                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily }]}>
+                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, ...numberTextStyle }]}>
                   {format2(r.mwPerHr)}
                 </ThemedText>
-                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, color: theme.warning }]}>
+                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, color: theme.warning, ...numberTextStyle }]}>
                   {format2(r.gasM3)}
                 </ThemedText>
-                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, color: theme.warning }]}>
+                <ThemedText type="small" style={[styles.tableCell, { fontFamily: Typography.mono.fontFamily, color: theme.warning, ...numberTextStyle }]}>
                   {format4(r.gasMMscf)}
                 </ThemedText>
               </View>

@@ -255,7 +255,7 @@ export default function TurbinesScreen() {
                       </ThemedText>
                       <ThemedText
                         type="h4"
-                        style={{ color: hasError ? "#f04438" : theme.text, fontFamily: Typography.mono.fontFamily }}
+                        style={{ color: hasError ? "#f04438" : theme.text, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}
                       >
                         {format2(Math.abs(row.diff))} {translate("mwh")}
                       </ThemedText>
@@ -266,7 +266,7 @@ export default function TurbinesScreen() {
                       </ThemedText>
                       <ThemedText
                         type="h4"
-                        style={{ color: theme.text, fontFamily: Typography.mono.fontFamily }}
+                        style={{ color: theme.text, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}
                       >
                         {format2(Math.abs(row.mwPerHr))}
                       </ThemedText>
@@ -301,6 +301,7 @@ export default function TurbinesScreen() {
               fontFamily: Typography.mono.fontFamily,
               marginTop: Spacing.xs,
               fontSize: 40,
+              ...numberTextStyle,
             }}
           >
             {format2(Math.abs(totalProduction))}
@@ -341,7 +342,7 @@ export default function TurbinesScreen() {
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                     {translate("prev_short")}
                   </ThemedText>
-                  <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily }}>
+                  <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
                     {format2(Math.abs(r.prev))}
                   </ThemedText>
                 </View>
@@ -349,7 +350,7 @@ export default function TurbinesScreen() {
                   <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                     {translate("pres_short")}
                   </ThemedText>
-                  <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily }}>
+                  <ThemedText type="small" style={{ fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
                     {format2(Math.abs(r.pres))}
                   </ThemedText>
                 </View>
@@ -359,7 +360,7 @@ export default function TurbinesScreen() {
                   </ThemedText>
                   <ThemedText
                     type="small"
-                    style={{ fontFamily: Typography.mono.fontFamily, color: theme.primary, fontWeight: "600" }}
+                    style={{ fontFamily: Typography.mono.fontFamily, color: theme.primary, fontWeight: "600", ...numberTextStyle }}
                   >
                     {format2(Math.abs(r.diff))}
                   </ThemedText>
@@ -370,7 +371,7 @@ export default function TurbinesScreen() {
                   </ThemedText>
                   <ThemedText
                     type="small"
-                    style={{ fontFamily: Typography.mono.fontFamily, color: theme.success, fontWeight: "600" }}
+                    style={{ fontFamily: Typography.mono.fontFamily, color: theme.success, fontWeight: "600", ...numberTextStyle }}
                   >
                     {format2(Math.abs(r.mwPerHr))}
                   </ThemedText>

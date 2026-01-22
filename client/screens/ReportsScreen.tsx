@@ -186,7 +186,7 @@ export default function ReportsScreen() {
                 <ThemedText type="caption" style={{ color: theme.success, marginTop: Spacing.sm }}>
                   {t("production")}
                 </ThemedText>
-                <ThemedText type="h3" style={{ color: theme.success, fontFamily: Typography.mono.fontFamily }}>
+                <ThemedText type="h3" style={{ color: theme.success, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
                   {format2(currentDayStats.production)}
                 </ThemedText>
                 <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -204,7 +204,7 @@ export default function ReportsScreen() {
                     <ThemedText type="caption" style={{ color: flowStyle.color, marginTop: Spacing.sm }}>
                       {flowStyle.text}
                     </ThemedText>
-                    <ThemedText type="h3" style={{ color: flowStyle.color, fontFamily: Typography.mono.fontFamily }}>
+                    <ThemedText type="h3" style={{ color: flowStyle.color, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
                       {format2(Math.abs(currentDayStats.exportVal))}
                     </ThemedText>
                     <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -221,7 +221,7 @@ export default function ReportsScreen() {
                 <ThemedText type="caption" style={{ color: theme.warning, marginTop: Spacing.sm }}>
                   {t("consumption")}
                 </ThemedText>
-                <ThemedText type="h3" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily }}>
+                <ThemedText type="h3" style={{ color: theme.warning, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}>
                   {format2(currentDayStats.consumption)}
                 </ThemedText>
                 <ThemedText type="caption" style={{ color: theme.textSecondary }}>
@@ -269,7 +269,7 @@ export default function ReportsScreen() {
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                         {t("production")}
                       </ThemedText>
-                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
+                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600", ...numberTextStyle }}>
                         {format2(stats.totalProduction)}
                       </ThemedText>
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
@@ -279,7 +279,7 @@ export default function ReportsScreen() {
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                         {t("export")}
                       </ThemedText>
-                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
+                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600", ...numberTextStyle }}>
                         {format2(stats.totalExport)}
                       </ThemedText>
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>
@@ -289,7 +289,7 @@ export default function ReportsScreen() {
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>
                         {t("consumption")}
                       </ThemedText>
-                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600" }}>
+                      <ThemedText type="body" style={{ fontFamily: Typography.mono.fontFamily, fontWeight: "600", ...numberTextStyle }}>
                         {format2(stats.totalConsumption)}
                       </ThemedText>
                       <ThemedText type="caption" style={{ color: theme.textSecondary }}>{t("mwh")}</ThemedText>

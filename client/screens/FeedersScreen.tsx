@@ -229,7 +229,7 @@ export default function FeedersScreen() {
                     </ThemedText>
                     <ThemedText
                       type="h2"
-                      style={{ color: theme.text, fontFamily: Typography.mono.fontFamily }}
+                      style={{ color: theme.text, fontFamily: Typography.mono.fontFamily, ...numberTextStyle }}
                     >
                       {format2(row.diff)}{" "}
                       <ThemedText type="body" style={{ color: theme.textSecondary }}>
@@ -274,6 +274,7 @@ export default function FeedersScreen() {
               fontWeight: "900",
               marginTop: Spacing.xs,
               fontSize: 40,
+              ...numberTextStyle,
             }}
           >
             {format2(Math.abs(total))}
