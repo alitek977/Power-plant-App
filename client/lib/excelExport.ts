@@ -231,6 +231,7 @@ function round2(v: number): number {
   return Math.round(v * 100) / 100;
 }
 
+
 function setColumnWidths(sheet: XLSX.WorkSheet, widths: number[]): void {
   sheet["!cols"] = widths.map(w => ({ wch: w }));
 }
