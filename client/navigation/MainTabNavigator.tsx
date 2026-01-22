@@ -7,6 +7,7 @@ import FeedersStackNavigator from "@/navigation/FeedersStackNavigator";
 import TurbinesStackNavigator from "@/navigation/TurbinesStackNavigator";
 import CalculationsStackNavigator from "@/navigation/CalculationsStackNavigator";
 import ReportsStackNavigator from "@/navigation/ReportsStackNavigator";
+import SettingsStackNavigator from "@/navigation/SettingsStackNavigator";
 import { useTheme } from "@/hooks/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Colors, Typography } from "@/constants/theme";
@@ -16,6 +17,7 @@ export type MainTabParamList = {
   TurbinesTab: undefined;
   CalculationsTab: undefined;
   ReportsTab: undefined;
+  SettingsTab: undefined;
 };
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -23,8 +25,8 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 type TabConfig = {
   name: keyof MainTabParamList;
   component: React.ComponentType<object>;
-  titleKey: "tab_feeders" | "tab_turbines" | "tab_calculations" | "tab_reports";
-  iconName: "activity" | "wind" | "cpu" | "file-text";
+  titleKey: "tab_feeders" | "tab_turbines" | "tab_calculations" | "tab_reports" | "tab_settings";
+  iconName: "activity" | "wind" | "cpu" | "file-text" | "settings";
 };
 
 const TAB_SCREENS: TabConfig[] = [
@@ -32,6 +34,7 @@ const TAB_SCREENS: TabConfig[] = [
   { name: "TurbinesTab", component: TurbinesStackNavigator, titleKey: "tab_turbines", iconName: "wind" },
   { name: "CalculationsTab", component: CalculationsStackNavigator, titleKey: "tab_calculations", iconName: "cpu" },
   { name: "ReportsTab", component: ReportsStackNavigator, titleKey: "tab_reports", iconName: "file-text" },
+  { name: "SettingsTab", component: SettingsStackNavigator, titleKey: "tab_settings", iconName: "settings" },
 ];
 
 function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {

@@ -23,7 +23,6 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Language } from "@/lib/i18n";
 import { getFlowLabelAndStyle } from "@/lib/flowLabel";
 import {
   DayData,
@@ -44,17 +43,6 @@ interface MonthlyStats {
   totalConsumption: number;
 }
 
-interface LanguageOption {
-  code: Language;
-  name: string;
-  nativeName: string;
-}
-
-const LANGUAGES: LanguageOption[] = [
-  { code: "en", name: "English", nativeName: "English" },
-  { code: "ar", name: "Arabic", nativeName: "العربية" },
-];
-
 export default function ReportsScreen() {
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
@@ -62,7 +50,7 @@ export default function ReportsScreen() {
   const { theme } = useTheme();
   const layout = useResponsiveLayout();
   const { dateKey, day } = useDay();
-  const { language, setLanguage, t, isRTL } = useLanguage();
+  const { language, t, isRTL } = useLanguage();
 
   const [allDays, setAllDays] = useState<DayData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -152,11 +140,6 @@ export default function ReportsScreen() {
     } catch (error) {
       Alert.alert(t("error"), t("failed_export"));
     }
-  };
-
-  const handleSelectLanguage = (lang: Language) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    setLanguage(lang);
   };
 
   const flexRowStyle = isRTL ? styles.flexRowRTL : styles.flexRow;
@@ -408,67 +391,6 @@ export default function ReportsScreen() {
             </View>
           </View>
         </Animated.View>
-
-        <Animated.View entering={FadeInDown.delay(500).duration(300)}>
-          <ThemedText type="h3" style={styles.sectionTitle}>
-            {t("settings")}
-          </ThemedText>
-
-          <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-            <View style={[styles.languageHeader, { borderBottomColor: theme.border }]}>
-              <View style={[flexRowStyle, { alignItems: "center" }]}>
-                <View style={[styles.actionIcon, { backgroundColor: theme.primary + "20" }]}>
-                  <Feather name="globe" size={20} color={theme.primary} />
-                </View>
-                <View style={isRTL ? { marginRight: Spacing.md } : { marginLeft: Spacing.md }}>
-                  <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
-                    {t("language")}
-                  </ThemedText>
-                  <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                    {t("select_language")}
-                  </ThemedText>
-                </View>
-              </View>
-            </View>
-
-            <View style={styles.languageOptions}>
-              {LANGUAGES.map((lang) => (
-                <Pressable
-                  key={lang.code}
-                  style={[
-                    styles.languageOption,
-                    { borderColor: language === lang.code ? theme.primary : theme.border },
-                    language === lang.code && { backgroundColor: theme.primary + "15" },
-                  ]}
-                  onPress={() => handleSelectLanguage(lang.code)}
-                  testID={`button-language-${lang.code}`}
-                >
-                  <View style={[flexRowStyle, { alignItems: "center", justifyContent: "space-between" }]}>
-                    <View>
-                      <ThemedText type="body" style={{ fontWeight: "600" }}>
-                        {lang.nativeName}
-                      </ThemedText>
-                      <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                        {lang.name}
-                      </ThemedText>
-                    </View>
-                    {language === lang.code ? (
-                      <View style={[styles.checkCircle, { backgroundColor: theme.primary }]}>
-                        <Feather name="check" size={16} color="#fff" />
-                      </View>
-                    ) : null}
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.versionInfo}>
-            <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center" }}>
-              {t("version")}
-            </ThemedText>
-          </View>
-        </Animated.View>
       </ScrollView>
     </View>
   );
@@ -622,29 +544,5 @@ const styles = StyleSheet.create({
   },
   flexRowRTL: {
     flexDirection: "row-reverse",
-  },
-  languageHeader: {
-    padding: Spacing.lg,
-    borderBottomWidth: 1,
-  },
-  languageOptions: {
-    padding: Spacing.lg,
-    gap: Spacing.md,
-  },
-  languageOption: {
-    padding: Spacing.lg,
-    borderRadius: BorderRadius.md,
-    borderWidth: 2,
-  },
-  checkCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  versionInfo: {
-    paddingVertical: Spacing.xl,
-    alignItems: "center",
   },
 });

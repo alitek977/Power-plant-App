@@ -15,6 +15,7 @@ export const translations = {
     tab_turbines: "Turbines",
     tab_calculations: "Calculations",
     tab_reports: "Reports",
+    tab_settings: "Settings",
     
     // Feeders Screen
     feeders_title: "Feeders",
@@ -126,6 +127,12 @@ export const translations = {
     theme: "Theme",
     dark_mode: "Dark Mode",
     light_mode: "Light Mode",
+    about: "About",
+    version_label: "Version",
+    developer: "Developer",
+    developer_name: "Ali Marwad",
+    copyright: "Copyright",
+    copyright_text: "© 2026 All Rights Reserved",
   },
   ar: {
     // Common
@@ -141,6 +148,7 @@ export const translations = {
     tab_turbines: "التوربينات",
     tab_calculations: "الحسابات",
     tab_reports: "التقارير",
+    tab_settings: "الإعدادات",
     
     // Feeders Screen
     feeders_title: "المغذيات",
@@ -252,6 +260,12 @@ export const translations = {
     theme: "السمة",
     dark_mode: "الوضع الداكن",
     light_mode: "الوضع الفاتح",
+    about: "حول التطبيق",
+    version_label: "الإصدار",
+    developer: "المطور",
+    developer_name: "علي مرود",
+    copyright: "حقوق النشر",
+    copyright_text: "© 2026 جميع الحقوق محفوظة",
   },
 } as const;
 
