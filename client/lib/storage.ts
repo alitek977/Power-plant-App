@@ -66,25 +66,41 @@ export function num(v: string | number | undefined): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+const LRM = "\u200E";
+
 export function format2(v: number): string {
-  return (Math.round(v * 100) / 100).toFixed(2);
+  const rounded = Math.round(v * 100) / 100;
+  const absValue = Math.abs(rounded).toFixed(2);
+  if (rounded < 0) {
+    return LRM + "-" + absValue;
+  }
+  return absValue;
 }
 
 export function format4(v: number): string {
-  return (Math.round(v * 10000) / 10000).toFixed(4);
+  const rounded = Math.round(v * 10000) / 10000;
+  const absValue = Math.abs(rounded).toFixed(4);
+  if (rounded < 0) {
+    return LRM + "-" + absValue;
+  }
+  return absValue;
 }
 
 export function formatWithCommas(value: string | number): string {
   const numStr = String(value).replace(/,/g, "");
   if (!numStr || numStr === "-") return numStr;
   
-  const parts = numStr.split(".");
+  const isNegative = numStr.startsWith("-");
+  const absNumStr = isNegative ? numStr.slice(1) : numStr;
+  
+  const parts = absNumStr.split(".");
   const intPart = parts[0];
   const decPart = parts[1];
   
   const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const formatted = decPart !== undefined ? `${formattedInt}.${decPart}` : formattedInt;
   
-  return decPart !== undefined ? `${formattedInt}.${decPart}` : formattedInt;
+  return isNegative ? LRM + "-" + formatted : formatted;
 }
 
 export function stripCommas(value: string): string {
