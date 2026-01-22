@@ -19,6 +19,7 @@ import { useTheme } from "@/hooks/useTheme";
 import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRTL } from "@/hooks/useRTL";
 import { Language } from "@/lib/i18n";
 
 interface LanguageOption {
@@ -39,6 +40,7 @@ export default function SettingsScreen() {
   const tabBarHeight = useBottomTabBarHeight();
   const layout = useResponsiveLayout();
   const { t, language, setLanguage, isRTL } = useLanguage();
+  const { rtlRow, rtlText } = useRTL();
 
   const appVersion = Constants.expoConfig?.version || "1.0.0";
 
@@ -46,8 +48,6 @@ export default function SettingsScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setLanguage(lang);
   };
-
-  const flexRowStyle = isRTL ? styles.flexRowRTL : styles.flexRow;
 
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
@@ -65,21 +65,21 @@ export default function SettingsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Animated.View entering={FadeInDown.duration(300)}>
-          <ThemedText type="h3" style={styles.sectionTitle}>
+          <ThemedText type="h3" style={[styles.sectionTitle, rtlText]}>
             {t("language")}
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-            <View style={[styles.cardHeader, { borderBottomColor: theme.border }]}>
-              <View style={[flexRowStyle, { alignItems: "center" }]}>
+            <View style={[styles.cardHeader, rtlRow, { borderBottomColor: theme.border }]}>
+              <View style={[rtlRow, { alignItems: "center" }]}>
                 <View style={[styles.iconCircle, { backgroundColor: theme.primary + "20" }]}>
                   <Feather name="globe" size={20} color={theme.primary} />
                 </View>
-                <View style={isRTL ? { marginRight: Spacing.md } : { marginLeft: Spacing.md }}>
-                  <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
+                <View style={{ marginHorizontal: Spacing.md }}>
+                  <ThemedText type="body" style={[{ fontFamily: Typography.h4.fontFamily }, rtlText]}>
                     {t("language")}
                   </ThemedText>
-                  <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                  <ThemedText type="small" style={[{ color: theme.textSecondary }, rtlText]}>
                     {t("select_language")}
                   </ThemedText>
                 </View>
@@ -98,12 +98,12 @@ export default function SettingsScreen() {
                   onPress={() => handleSelectLanguage(lang.code)}
                   testID={`button-language-${lang.code}`}
                 >
-                  <View style={[flexRowStyle, { alignItems: "center", justifyContent: "space-between" }]}>
+                  <View style={[rtlRow, { alignItems: "center", justifyContent: "space-between" }]}>
                     <View>
-                      <ThemedText type="body" style={{ fontWeight: "600" }}>
+                      <ThemedText type="body" style={[{ fontWeight: "600" }, rtlText]}>
                         {lang.nativeName}
                       </ThemedText>
-                      <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                      <ThemedText type="small" style={[{ color: theme.textSecondary }, rtlText]}>
                         {lang.name}
                       </ThemedText>
                     </View>
@@ -120,48 +120,51 @@ export default function SettingsScreen() {
         </Animated.View>
 
         <Animated.View entering={FadeInDown.delay(100).duration(300)}>
-          <ThemedText type="h3" style={styles.sectionTitle}>
+          <ThemedText type="h3" style={[styles.sectionTitle, rtlText]}>
             {t("about")}
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
-            <View style={[styles.aboutRow, { borderBottomColor: theme.border, borderBottomWidth: 1 }]}>
+            <View style={[styles.aboutRow, rtlRow, { borderBottomColor: theme.border, borderBottomWidth: 1 }]}>
               <View style={[styles.iconCircle, { backgroundColor: theme.primary + "20" }]}>
                 <Feather name="zap" size={20} color={theme.primary} />
               </View>
-              <View style={isRTL ? { marginRight: Spacing.md, flex: 1 } : { marginLeft: Spacing.md, flex: 1 }}>
-                <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
+              <View style={{ marginHorizontal: Spacing.md, flex: 1 }}>
+                <ThemedText type="body" style={[{ fontFamily: Typography.h4.fontFamily }, rtlText]}>
                   {t("app_name")}
                 </ThemedText>
-                <ThemedText type="small" style={{ color: theme.textSecondary }}>
-                  {t("version_label")} {appVersion}
+                <ThemedText type="small" style={[{ color: theme.textSecondary }, rtlText]}>
+                  {t("version_label")}{" "}
+                  <ThemedText type="small" style={{ color: theme.textSecondary, writingDirection: "ltr" }}>
+                    {appVersion}
+                  </ThemedText>
                 </ThemedText>
               </View>
             </View>
 
-            <View style={[styles.aboutRow, { borderBottomColor: theme.border, borderBottomWidth: 1 }]}>
+            <View style={[styles.aboutRow, rtlRow, { borderBottomColor: theme.border, borderBottomWidth: 1 }]}>
               <View style={[styles.iconCircle, { backgroundColor: theme.success + "20" }]}>
                 <Feather name="user" size={20} color={theme.success} />
               </View>
-              <View style={isRTL ? { marginRight: Spacing.md, flex: 1 } : { marginLeft: Spacing.md, flex: 1 }}>
-                <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
+              <View style={{ marginHorizontal: Spacing.md, flex: 1 }}>
+                <ThemedText type="body" style={[{ fontFamily: Typography.h4.fontFamily }, rtlText]}>
                   {t("developer")}
                 </ThemedText>
-                <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                <ThemedText type="small" style={[{ color: theme.textSecondary }, rtlText]}>
                   {t("developer_name")}
                 </ThemedText>
               </View>
             </View>
 
-            <View style={styles.aboutRow}>
+            <View style={[styles.aboutRow, rtlRow]}>
               <View style={[styles.iconCircle, { backgroundColor: theme.warning + "20" }]}>
                 <Feather name="shield" size={20} color={theme.warning} />
               </View>
-              <View style={isRTL ? { marginRight: Spacing.md, flex: 1 } : { marginLeft: Spacing.md, flex: 1 }}>
-                <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
+              <View style={{ marginHorizontal: Spacing.md, flex: 1 }}>
+                <ThemedText type="body" style={[{ fontFamily: Typography.h4.fontFamily }, rtlText]}>
                   {t("copyright")}
                 </ThemedText>
-                <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                <ThemedText type="small" style={[{ color: theme.textSecondary }, rtlText]}>
                   {t("copyright_text")}
                 </ThemedText>
               </View>
@@ -170,7 +173,7 @@ export default function SettingsScreen() {
         </Animated.View>
 
         <View style={styles.footer}>
-          <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center" }}>
+          <ThemedText type="small" style={{ color: theme.textSecondary, textAlign: "center", writingDirection: "ltr" }}>
             {t("version")}
           </ThemedText>
         </View>
@@ -233,11 +236,5 @@ const styles = StyleSheet.create({
     marginTop: Spacing.xl,
     alignItems: "center",
     paddingBottom: Spacing.xl,
-  },
-  flexRow: {
-    flexDirection: "row",
-  },
-  flexRowRTL: {
-    flexDirection: "row-reverse",
   },
 });
