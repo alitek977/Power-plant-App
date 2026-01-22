@@ -34,6 +34,7 @@ import {
   format2,
   monthKey,
 } from "@/lib/storage";
+import { generateExcelReport } from "@/lib/excelExport";
 
 interface MonthlyStats {
   month: string;
@@ -141,6 +142,15 @@ export default function ReportsScreen() {
       Alert.alert(t("copied"), t("data_copied"));
     } catch (error) {
       Alert.alert(t("error"), t("failed_copy"));
+    }
+  };
+
+  const handleExcelExport = async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    try {
+      await generateExcelReport(day, allDays, t, language);
+    } catch (error) {
+      Alert.alert(t("error"), t("failed_export"));
     }
   };
 
@@ -325,6 +335,27 @@ export default function ReportsScreen() {
           </ThemedText>
 
           <View style={[styles.card, { backgroundColor: theme.backgroundDefault }]}>
+            <Pressable
+              style={[styles.actionRow, { borderBottomWidth: 1, borderBottomColor: theme.border }]}
+              onPress={handleExcelExport}
+              testID="button-export-excel"
+            >
+              <View style={[styles.actionIcon, { backgroundColor: theme.success + "20" }]}>
+                <Feather name="file-text" size={20} color={theme.success} />
+              </View>
+              <View style={styles.actionText}>
+                <ThemedText type="body" style={{ fontFamily: Typography.h4.fontFamily }}>
+                  {t("export_excel")}
+                </ThemedText>
+                <ThemedText type="small" style={{ color: theme.textSecondary }}>
+                  {t("share_as_excel")}
+                </ThemedText>
+              </View>
+              <View style={[styles.actionArrow, { backgroundColor: theme.backgroundSecondary }]}>
+                <Feather name="chevron-right" size={18} color={theme.textSecondary} />
+              </View>
+            </Pressable>
+
             <Pressable
               style={[styles.actionRow, { borderBottomWidth: 1, borderBottomColor: theme.border }]}
               onPress={handleExport}
