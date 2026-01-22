@@ -21,15 +21,22 @@ export function formatNumber(
   const numValue = typeof value === "string" ? parseFloat(value) : value;
 
   if (!Number.isFinite(numValue)) {
-    const zeroFormatted = (0).toFixed(decimals);
-    return unit ? `${zeroFormatted} ${unit}` : zeroFormatted;
+    return unit ? `0 ${unit}` : "0";
   }
 
   const rounded = Math.round(numValue * Math.pow(10, decimals)) / Math.pow(10, decimals);
   const isNegative = rounded < 0;
   const absValue = Math.abs(rounded);
 
-  let formattedAbs = absValue.toFixed(decimals);
+  const hasDecimalPart = absValue % 1 !== 0;
+  let formattedAbs: string;
+
+  if (hasDecimalPart) {
+    formattedAbs = absValue.toFixed(decimals);
+    formattedAbs = formattedAbs.replace(/\.?0+$/, "");
+  } else {
+    formattedAbs = Math.round(absValue).toString();
+  }
 
   if (thousandsSeparator) {
     const parts = formattedAbs.split(".");
