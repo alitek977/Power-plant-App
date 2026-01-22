@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18nManager } from "react-native";
 import { reloadAppAsync } from "expo";
 
-import { Language, translations, TranslationKey, isRTL } from "@/lib/i18n";
+import { Language, translations, TranslationKey, isRTL as isRTLLanguage } from "@/lib/i18n";
 
 const LANGUAGE_KEY = "pp-app:language";
 
@@ -12,6 +12,7 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void;
   t: (key: TranslationKey) => string;
   isRTL: boolean;
+  isHydrated: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -28,8 +29,8 @@ function applyRTLSettings(shouldBeRTL: boolean): boolean {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [language, setLanguageState] = useState<Language>(I18nManager.isRTL ? "ar" : "en");
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     loadLanguage();
@@ -39,39 +40,44 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       const saved = await AsyncStorage.getItem(LANGUAGE_KEY);
       if (saved === "en" || saved === "ar") {
-        setLanguageState(saved);
-        const shouldBeRTL = isRTL(saved);
+        const shouldBeRTL = isRTLLanguage(saved);
         const needsReload = applyRTLSettings(shouldBeRTL);
         
         if (needsReload) {
           await reloadAppAsync();
           return;
         }
+        
+        setLanguageState(saved);
+      } else {
+        const defaultLang: Language = I18nManager.isRTL ? "ar" : "en";
+        setLanguageState(defaultLang);
       }
-      setIsLoaded(true);
+      setIsHydrated(true);
     } catch (error) {
       console.error("Error loading language:", error);
-      setIsLoaded(true);
+      setIsHydrated(true);
     }
   };
 
   const setLanguage = async (lang: Language) => {
     try {
       await AsyncStorage.setItem(LANGUAGE_KEY, lang);
-      setLanguageState(lang);
       
-      const shouldBeRTL = isRTL(lang);
+      const shouldBeRTL = isRTLLanguage(lang);
       const needsReload = applyRTLSettings(shouldBeRTL);
       
       if (needsReload) {
         await reloadAppAsync();
+      } else {
+        setLanguageState(lang);
       }
     } catch (error) {
       console.error("Error saving language:", error);
     }
   };
 
-  if (!isLoaded) {
+  if (!isHydrated) {
     return null;
   }
 
@@ -85,7 +91,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         language,
         setLanguage,
         t,
-        isRTL: isRTL(language),
+        isRTL: I18nManager.isRTL,
+        isHydrated,
       }}
     >
       {children}

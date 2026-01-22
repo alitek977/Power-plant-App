@@ -94,7 +94,6 @@ function TabNavigatorContent({ isRTL }: { isRTL: boolean }) {
 }
 
 export default function MainTabNavigator() {
-  const { language } = useLanguage();
-  const isRTL = language === "ar";
+  const { isRTL } = useLanguage();
   return <TabNavigatorContent key={isRTL ? "rtl" : "ltr"} isRTL={isRTL} />;
 }

@@ -25,8 +25,7 @@ import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 SplashScreen.preventAutoHideAsync();
 
 function AppContent() {
-  const { language } = useLanguage();
-  const isRTL = language === "ar";
+  const { isRTL } = useLanguage();
 
   return (
     <DayProvider>
