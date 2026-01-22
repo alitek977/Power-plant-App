@@ -16,6 +16,7 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRTL } from "@/hooks/useRTL";
 import { getFlowLabelAndStyle } from "@/lib/flowLabel";
 import {
   TURBINES,
@@ -85,7 +86,8 @@ export default function CalculationsScreen() {
   const { theme } = useTheme();
   const layout = useResponsiveLayout();
   const { day, dateKey } = useDay();
-  const { t } = useLanguage();
+  const { t, isRTL } = useLanguage();
+  const { rtlRow, rtlText } = useRTL();
 
   const calculations = useMemo(() => {
     const production = turbineProductionMwh(day);

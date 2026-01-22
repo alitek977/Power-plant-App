@@ -22,6 +22,7 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography, Shadows } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRTL } from "@/hooks/useRTL";
 import { TURBINES, format2, turbineRowComputed, numberTextStyle } from "@/lib/storage";
 import { showSuccess } from "@/utils/notify";
 
@@ -43,6 +44,7 @@ export default function TurbinesScreen() {
   const layout = useResponsiveLayout();
   const { dateKey, setDateKey, day, setDay, saveDay, resetDay } = useDay();
   const { t: translate, isRTL } = useLanguage();
+  const { rtlRow, rtlText } = useRTL();
 
   const rows = useMemo(() => {
     return TURBINES.map((t) => ({
@@ -102,19 +104,19 @@ export default function TurbinesScreen() {
         }}
         scrollIndicatorInsets={{ bottom: insets.bottom }}
       >
-        <View style={styles.headerRow}>
+        <View style={[styles.headerRow, rtlRow]}>
           <Pressable
-            style={[styles.todayButton, { borderColor: theme.primary, backgroundColor: theme.primary + "10" }]}
+            style={[styles.todayButton, rtlRow, { borderColor: theme.primary, backgroundColor: theme.primary + "10" }]}
             onPress={() => setShowDatePicker(true)}
             testID="button-date"
           >
             <Feather name="calendar" size={18} color={theme.primary} />
-            <ThemedText type="body" style={{ color: theme.primary, marginLeft: Spacing.sm, fontWeight: "600" }}>
+            <ThemedText type="body" style={{ color: theme.primary, marginHorizontal: Spacing.sm, fontWeight: "600" }}>
               {isToday ? translate("today") : dateKey}
             </ThemedText>
           </Pressable>
 
-          <View style={styles.actionButtons}>
+          <View style={[styles.actionButtons, rtlRow]}>
             <View style={[styles.letterCircle, { borderColor: theme.primary, backgroundColor: theme.primary + "10" }]}>
               <ThemedText type="h3" style={{ color: theme.primary, fontWeight: "700" }}>
                 {dayLetter}

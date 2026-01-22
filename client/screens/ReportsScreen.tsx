@@ -23,6 +23,7 @@ import { useResponsiveLayout } from "@/hooks/useResponsiveLayout";
 import { Spacing, BorderRadius, Typography } from "@/constants/theme";
 import { useDay } from "@/contexts/DayContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRTL } from "@/hooks/useRTL";
 import { getFlowLabelAndStyle } from "@/lib/flowLabel";
 import {
   DayData,
@@ -52,6 +53,7 @@ export default function ReportsScreen() {
   const layout = useResponsiveLayout();
   const { dateKey, day } = useDay();
   const { language, t, isRTL } = useLanguage();
+  const { rtlRow, rtlText } = useRTL();
 
   const [allDays, setAllDays] = useState<DayData[]>([]);
   const [loading, setLoading] = useState(true);
